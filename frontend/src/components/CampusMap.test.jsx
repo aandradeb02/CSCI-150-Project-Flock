@@ -30,14 +30,14 @@ describe('CampusMap', () => {
     const [code, status] = group.querySelectorAll('text');
     expect(code).toHaveTextContent('PA');
     expect(status).toHaveTextContent('74% Full');
-    expect(group.querySelector('polygon')).toHaveAttribute('points', '100,100 200,100 200,200 100,200');
+    expect(group.querySelector('.lot-shape')).toHaveAttribute('points', '100,100 200,100 200,200 100,200');
   });
 
   it('fills lots with their permit color, or grey while updating', () => {
     const [student, staff, updating] = renderMap([STUDENT_LOT, STAFF_LOT, UPDATING_LOT]);
-    expect(student.querySelector('polygon')).toHaveAttribute('fill', '#16a34a');
-    expect(staff.querySelector('polygon')).toHaveAttribute('fill', '#eab308');
-    expect(updating.querySelector('polygon')).toHaveAttribute('fill', '#64748b');
+    expect(student.querySelector('.lot-shape')).toHaveAttribute('fill', '#16a34a');
+    expect(staff.querySelector('.lot-shape')).toHaveAttribute('fill', '#eab308');
+    expect(updating.querySelector('.lot-shape')).toHaveAttribute('fill', '#64748b');
     expect(updating.querySelectorAll('text')[1]).toHaveTextContent('Updating...');
   });
 
@@ -49,6 +49,26 @@ describe('CampusMap', () => {
   });
 });
 
+describe('CampusMap: heat zones', () => {
+  const renderHeatMap = (lots) => {
+    const { container } = render(<CampusMap lots={lots} onSelectLot={() => {}} showHeatZones />);
+    return [...container.querySelectorAll('.map-lot-group')];
+  };
+
+  it('fills the lot in the heat zone color and keeps the permit color outline', () => {
+    const [student, staff] = renderHeatMap([STUDENT_LOT, STAFF_LOT]);
+    expect(student.querySelector('.lot-shape')).toHaveAttribute('fill', '#fb923c');
+    expect(student.querySelector('.lot-shape')).toHaveAttribute('stroke', '#16a34a');
+    expect(staff.querySelector('.lot-shape')).toHaveAttribute('fill', '#059669');
+    expect(staff.querySelector('.lot-shape')).toHaveAttribute('stroke', '#eab308');
+  });
+
+  it('keeps the status text white', () => {
+    const [student] = renderHeatMap([STUDENT_LOT]);
+    expect(student.querySelectorAll('text')[1]).toHaveAttribute('fill', '#e2e8f0');
+  });
+});
+
 describe('CampusMap: selection', () => {
   it('outlines the selected lot and dims the rest', () => {
     const { container } = render(
@@ -56,9 +76,9 @@ describe('CampusMap: selection', () => {
     );
     const [student, staff] = container.querySelectorAll('.map-lot-group');
     expect(staff).toHaveClass('selected');
-    expect(staff.querySelector('polygon')).toHaveAttribute('stroke-width', '4');
+    expect(staff.querySelector('.lot-shape')).toHaveAttribute('stroke-width', '4');
     expect(student).not.toHaveClass('selected');
-    expect(student.querySelector('polygon')).toHaveAttribute('stroke-width', '2.4');
+    expect(student.querySelector('.lot-shape')).toHaveAttribute('stroke-width', '2.4');
     expect(container.querySelector('svg')).toHaveClass('has-selection');
   });
 

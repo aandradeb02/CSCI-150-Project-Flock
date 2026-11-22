@@ -157,6 +157,8 @@ export default function App() {
         currentUser={currentUser}
         onOpenAccount={() => setShowAccountModal(true)}
         onOpenAdmin={() => setShowAdminModal(true)}
+        showHeatZones={showHeatZones}
+        onToggleHeatZones={() => setShowHeatZones((prev) => !prev)}
       />
 
       {/* 15-Second Timeout Banner */}
@@ -167,19 +169,6 @@ export default function App() {
           </div>
           <button className="btn btn-primary" onClick={() => handleDelayChange(200)}>
             <RefreshCw size={15} /> Reset Latency &amp; Refresh Now
-          </button>
-        </div>
-      )}
-
-      {/* Heat zones only color the map, which is hidden on mobile */}
-      {!isMobile && (
-        <div className="heat-zone-controls">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => setShowHeatZones((prev) => !prev)}
-          >
-            {showHeatZones ? 'Hide Lot Heat Zones' : 'Show Lot Heat Zones'}
           </button>
         </div>
       )}

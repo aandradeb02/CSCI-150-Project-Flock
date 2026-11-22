@@ -122,6 +122,12 @@ body {
   border: 1px solid var(--border);
 }
 
+.btn-outline.active {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
 .btn-sm {
   padding: 0.35rem 0.65rem;
   font-size: 0.78rem;
@@ -133,12 +139,49 @@ body {
 .dashboard-grid {
   display: grid;
   gap: 1.25rem;
+  grid-template-rows: minmax(0, 1fr);
   padding: 1.25rem 1.5rem;
   flex: 1;
+  min-height: 0;
 }
 
 .dashboard-grid.mode-split {
   grid-template-columns: 0.76fr 1.44fr;
+}
+
+/* Lock the page to the window so the panels stretch to the bottom
+   edge and resize with it, instead of the page scrolling */
+.app-container:has(> .dashboard-grid) {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  padding-bottom: 0;
+}
+
+.dashboard-grid > .list-column,
+.dashboard-grid > .map-panel {
+  min-height: 0;
+}
+
+.dashboard-grid .list-panel {
+  overflow: hidden;
+}
+
+.dashboard-grid .lot-cards {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+}
+
+.mode-split .map-panel {
+  align-self: stretch;
+}
+
+/* The SVG letterboxes itself (preserveAspectRatio meet) to whatever space is left */
+.mode-split .map-panel .static-map-canvas {
+  flex: 1;
+  min-height: 0;
+  aspect-ratio: auto;
 }
 
 .dashboard-grid.mode-list {
@@ -798,12 +841,6 @@ body {
 
 .campus-svg.has-selection .map-lot-group:not(.selected) {
   opacity: 0.45;
-}
-
-.heat-zone-controls {
-  display: flex;
-  justify-content: flex-end;
-  padding: 12px 20px;
 }
 
 .heat-zone-view {

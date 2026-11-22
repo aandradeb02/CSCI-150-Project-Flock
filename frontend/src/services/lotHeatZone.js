@@ -1,5 +1,11 @@
+import { OCCUPANCY_THRESHOLDS } from './lotStatus';
 
-import { getOccupancyColor } from './lotStatus';
+// Heatmap shades, kept distinct from the green/yellow permit colors on the map
+const HEAT_COLORS = {
+  Low: '#059669', //Emerald
+  Moderate: '#fb923c', //Light Orange
+  High: '#ef4444' //Red
+};
 
 // Determines overall busyness using Django's data.
 export function getLotHeatZone(lot) {
@@ -28,14 +34,16 @@ export function getLotHeatZone(lot) {
     };
   }
 
+  const level = percentage >= OCCUPANCY_THRESHOLDS.high
+    ? 'High'
+    : percentage >= OCCUPANCY_THRESHOLDS.moderate
+      ? 'Moderate'
+      : 'Low';
+
   return {
-    level: percentage >= 80
-      ? 'High'
-      : percentage >= 50
-        ? 'Moderate'
-        : 'Low',
+    level,
     percentage,
-    color: getOccupancyColor(percentage)
+    color: HEAT_COLORS[level]
   };
 }
 

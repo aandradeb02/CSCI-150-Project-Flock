@@ -14,13 +14,13 @@ const GREY = '#64748b';
 const PERMIT_GREEN = '#16a34a';
 
 describe('getOccupancyColor', () => {
-  it('is green below 50%', () => {
+  it('is green below 60%', () => {
     expect(getOccupancyColor(0)).toBe(GREEN);
-    expect(getOccupancyColor(49)).toBe(GREEN);
+    expect(getOccupancyColor(59)).toBe(GREEN);
   });
 
-  it('is yellow from 50% up to 79%', () => {
-    expect(getOccupancyColor(50)).toBe(YELLOW);
+  it('is yellow from 60% up to 79%', () => {
+    expect(getOccupancyColor(60)).toBe(YELLOW);
     expect(getOccupancyColor(79)).toBe(YELLOW);
   });
 

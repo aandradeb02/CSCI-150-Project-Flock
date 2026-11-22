@@ -4,9 +4,11 @@ import { isLotUpdating, getMapPolygonColor } from '../services/lotStatus';
 import { MAP_WIDTH, MAP_HEIGHT } from '../services/mapView';
 import { getLotHeatZone } from '../services/lotHeatZone';
 
-// Interactive lot polygon with its code and status labels
+// Interactive lot polygon with its code and status labels.
+// Heat zones fill the lot, leaving the permit color on the outline.
 function MapLot({ lot, onSelectLot, selected, showHeatZones }) {
-  const polyColor = showHeatZones ? getLotHeatZone(lot).color : getMapPolygonColor(lot);
+  const polyColor = getMapPolygonColor(lot);
+  const heatColor = showHeatZones ? getLotHeatZone(lot).color : null;
   const isUpdating = isLotUpdating(lot);
   const { points, label } = lot.coordinates;
   const layout = getLotLabelLayout(lot.coordinates);
@@ -17,8 +19,9 @@ function MapLot({ lot, onSelectLot, selected, showHeatZones }) {
   return (
     <g className={`map-lot-group ${selected ? 'selected' : ''}`} onClick={() => onSelectLot(lot)}>
       <polygon
+        className="lot-shape"
         points={points.map(([px, py]) => `${px},${py}`).join(' ')}
-        fill={polyColor}
+        fill={heatColor ?? polyColor}
         fillOpacity="0.42"
         stroke={polyColor}
         strokeWidth={selected ? 4 : 2.4}

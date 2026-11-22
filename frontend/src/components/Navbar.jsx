@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Menu, X, Shield, User } from 'lucide-react';
+import { Menu, X, Shield, User, Flame } from 'lucide-react';
 
 const PERMIT_OPTIONS = [
   { id: 'All', label: 'All Lots' },
@@ -8,8 +8,18 @@ const PERMIT_OPTIONS = [
 ];
 
 // Permit filter chips, account, and admin buttons, shared by the desktop bar and the mobile menu.
+// The heat zone toggle only shows when onToggleHeatZones is given, since the map is hidden on mobile.
 // onAction runs after any choice so the mobile menu can close itself.
-function NavOptions({ permitFilter, onPermitChange, currentUser, onOpenAccount, onOpenAdmin, onAction = () => {} }) {
+function NavOptions({
+  permitFilter,
+  onPermitChange,
+  currentUser,
+  onOpenAccount,
+  onOpenAdmin,
+  showHeatZones,
+  onToggleHeatZones,
+  onAction = () => {}
+}) {
   const run = (fn) => () => {
     fn();
     onAction();
@@ -32,6 +42,16 @@ function NavOptions({ permitFilter, onPermitChange, currentUser, onOpenAccount, 
       </div>
 
       <div className="nav-actions">
+        {onToggleHeatZones && (
+          <button
+            className={`btn btn-outline ${showHeatZones ? 'active' : ''}`}
+            aria-pressed={showHeatZones}
+            onClick={run(onToggleHeatZones)}
+          >
+            <Flame size={16} /> {showHeatZones ? 'Hide Heat Zones' : 'Show Heat Zones'}
+          </button>
+        )}
+
         <button className="btn btn-outline" onClick={run(onOpenAccount)}>
           <User size={16} />
           {currentUser ? currentUser.username : 'Account'}
@@ -46,7 +66,7 @@ function NavOptions({ permitFilter, onPermitChange, currentUser, onOpenAccount, 
 }
 
 // Top Navigation Bar: inline options on desktop, hamburger slide-out menu on mobile
-export default function Navbar({ isMobile, ...options }) {
+export default function Navbar({ isMobile, showHeatZones, onToggleHeatZones, ...options }) {
   const [menuOpen, setMenuOpen] = useState(false);
   // Rotating to landscape drops the menu, so it doesn't reappear when rotating back
   if (!isMobile && menuOpen) setMenuOpen(false);
@@ -73,7 +93,7 @@ export default function Navbar({ isMobile, ...options }) {
             <span className="subtitle">Real-Time Aerial Telemetry • Status Bars Show % Full</span>
           </div>
         </div>
-        <NavOptions {...options} />
+        <NavOptions {...options} showHeatZones={showHeatZones} onToggleHeatZones={onToggleHeatZones} />
       </header>
     );
   }
