@@ -7,6 +7,9 @@
   --text-muted: #9ca3af;
   --accent: #cc0033; /* Fresno State Bulldog Red */
   --mobile-nav-h: 60px;
+  --fs-red: #cc0033; /* Added to change style -o */
+  --fs-navy: #062654; /* -o */
+  --fs-white: #ffffff; /* -o */
 }
 
 * {
@@ -852,4 +855,177 @@ body {
   padding: 20px;
   overflow-y: auto;
   min-width: 0;
+}
+
+/* ===== Fresno State Navbar ===== */
+
+:root {
+  --fs-red: #cc0033;
+  --fs-navy: #062654;
+  --fs-white: #ffffff;
+}
+
+/* Main navbar */
+.navbar.fs-navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  gap: 0;
+  padding: 0;
+  background: var(--fs-navy);
+}
+
+/* Top crimson header */
+.fs-header-top {
+  background: var(--fs-red);
+  color: var(--fs-white);
+  padding: 1.5rem 2rem;
+}
+
+/* Fresno State branding */
+.fs-brand {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.fs-wordmark {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  color: white;
+  white-space: nowrap;
+}
+
+.fs-brand-copy {
+  padding-left: 2rem;
+  border-left: 2px solid rgba(255,255,255,0.7);
+}
+
+.fs-brand-copy h1 {
+  color: white;
+  font-size: 1.6rem;
+}
+
+.fs-subtitle {
+  color: white;
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+/* Bottom navy navigation */
+.fs-header-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: var(--fs-navy);
+}
+
+/* Navigation buttons */
+.fs-nav-actions .fs-action {
+  background: transparent;
+  color: white;
+  border: 1.5px solid white;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+}
+
+.fs-nav-actions .fs-action:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.fs-nav-actions .fs-action.active {
+  background: white;
+  border-color: white;
+  color: var(--fs-navy);
+}
+
+/* Permit filter */
+.fs-permit-filter .filter-label {
+  color: white;
+}
+
+.fs-permit-filter .fs-chip {
+  background: transparent;
+  color: white;
+  border: 1.5px solid white;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+}
+
+.fs-permit-filter .fs-chip.active {
+  background: white;
+  color: var(--fs-navy);
+  border-color: white;
+  font-weight: 700;
+}
+
+/* Responsive layout */
+@media (max-width: 900px) {
+  .fs-header-bottom {
+    justify-content: center;
+  }
+
+  .fs-brand {
+    gap: 1rem;
+  }
+
+  .fs-wordmark {
+    font-size: 1.4rem;
+  }
+
+  .fs-brand-copy {
+    padding-left: 1rem;
+  }
+}
+
+/* Mobile header and menu */
+.navbar.mobile.fs-navbar-mobile {
+  flex-direction: row;
+  height: var(--mobile-nav-h);
+  padding: 0;
+  background: var(--fs-red);
+}
+
+.fs-mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.fs-navbar-mobile .fs-brand {
+  gap: 0.6rem;
+}
+
+.fs-navbar-mobile .fs-wordmark {
+  font-size: 0.85rem;
+}
+
+.fs-navbar-mobile .fs-brand-copy {
+  padding-left: 0.6rem;
+}
+
+.fs-navbar-mobile .fs-brand-copy h1 {
+  font-size: 0.85rem;
+}
+
+.fs-navbar-mobile .mobile-menu {
+  background: var(--fs-navy);
+  color: white;
+}
+
+.fs-navbar-mobile .mobile-menu .fs-nav-actions,
+.fs-navbar-mobile .mobile-menu .fs-permit-filter {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.fs-navbar-mobile .mobile-menu .fs-action,
+.fs-navbar-mobile .mobile-menu .fs-chip {
+  justify-content: center;
 }
